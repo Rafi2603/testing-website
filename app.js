@@ -12,7 +12,12 @@ const pool = new Pool({
 });
 
 // Menggunakan CORS
-app.use(cors());  // This will allow all origins
+//app.use(cors());  // This will allow all origins
+
+app.use(cors({
+    origin: 'https://testing-website-pied.vercel.app', // Allow your frontend domain
+    credentials: true // Required for session cookies
+}));
 
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -35,6 +40,8 @@ app.get('/', (req, res) => {
 // Handle login
 app.post('/login', async (req, res) => {
     const { ruas, pass_ruas } = req.body;
+
+    console.log('Received:', { ruas, pass_ruas });
 
     console.log('Received:', { ruas, pass_ruas }); // Log the incoming values
 
