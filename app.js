@@ -6,7 +6,7 @@ const { Pool } = require('pg');
 
 // Setup PostgreSQL connection
 const pool = new Pool({
-    connectionString: process.env.DATABASE_URL
+    connectionString: 'postgresql://jmto_owner:saN4LcZbUQO9@ep-royal-snowflake-a1gudpyv.ap-southeast-1.aws.neon.tech/jmto?sslmode=require'
 });
 
 const app = express();
