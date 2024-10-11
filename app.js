@@ -2,8 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const { Pool } = require('pg');
-const RedisStore = require('connect-redis')(session);
-const redisClient = require('redis').createClient();
 const cors = require('cors');
 
 const app = express();  // Inisialisasi express app di sini
@@ -18,19 +16,10 @@ app.use(cors({
     origin: 'https://testing-website-rafi-fauzans-projects.vercel.app'  // Batasi hanya ke domain frontend Anda
 }));
 
-
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// setup cors
-const cors = require('cors');
-app.use(cors());  // Mengizinkan semua origin
-
-
-app.use(bodyParser.urlencoded({ extended: true }));
-
-// Setup session
+// Setup session with memory store (default)
 app.use(session({
-    store: new RedisStore({ client: redisClient }),
     secret: 'secret-key',
     resave: false,
     saveUninitialized: false
@@ -67,8 +56,6 @@ app.post('/login', async (req, res) => {
     }
     res.status(401).send('Invalid ruas or password');
 });
-
-
 
 // Dashboard route (protected)
 app.get('/dashboard', (req, res) => {
