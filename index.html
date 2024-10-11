@@ -32,7 +32,12 @@
         const response = await axios.post('https://testing-website-rafi-fauzans-projects.vercel.app/login', {
             ruas: username,
             pass_ruas: password
-        });
+        }, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+        );
 
         // Handle successful login
         if (response.data.success) {

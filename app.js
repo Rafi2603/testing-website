@@ -24,13 +24,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // Setup session with memory store (default)
 app.use(session({
-    secret: 'secret-key',
+    secret: 'secret-key', // Change to a secure secret
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: true,
+    cookie: { secure: true } // Set to true if using HTTPS
 }));
 
 // Serve static files (CSS)
 app.use(express.static('public'));
+
+app.use(express.json())
 
 // Display login page
 app.get('/', (req, res) => {
