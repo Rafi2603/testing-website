@@ -2,20 +2,27 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const { Pool } = require('pg');
+const RedisStore = require('connect-redis')(session);
+const redisClient = require('redis').createClient();
 
 // Setup PostgreSQL connection
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL
 });
 
+// setup cors
+const cors = require('cors');
+app.use(cors());  // Mengizinkan semua origin
+
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Setup session
 app.use(session({
+    store: new RedisStore({ client: redisClient }),
     secret: 'secret-key',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: false
 }));
 
 // Serve static files (CSS)
@@ -37,13 +44,19 @@ app.post('/login', async (req, res) => {
         const user = result.rows[0];
 
         // Cek apakah password yang diinputkan sesuai dengan pass_ruas di database
-        if (pass_ruas === user.pass_ruas) { 
+        if (pass_ruas === user.pass_ruas) {
             req.session.userId = user.ruas_id;  // Set session berdasarkan ruas_id
-            return res.redirect('/dashboard');
+            
+            // Kirim response JSON jika login berhasil
+            return res.json({
+                success: true,
+                ruas: user.ruas // Misalnya mengembalikan ruas
+            });
         }
     }
-    res.send('Invalid ruas or password');
+    res.status(401).send('Invalid ruas or password');
 });
+
 
 
 // Dashboard route (protected)
