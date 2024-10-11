@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
-
 const { Pool } = require('pg');
 
 // Setup PostgreSQL connection
@@ -10,7 +9,6 @@ const pool = new Pool({
 });
 
 const app = express();
-
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Setup session
@@ -23,20 +21,6 @@ app.use(session({
 // Serve static files (CSS)
 app.use(express.static('public'));
 
-// Function to check database connection
-async function checkDbConnection() {
-    try {
-        const client = await pool.connect(); // Try to connect to the database
-        console.log('Connected to PostgreSQL database successfully!');
-        await client.release(); // Release the connection after successful connection
-    } catch (err) {
-        console.error('Failed to connect to the database:', err);
-    }
-}
-
-// Call the function to check the connection
-checkDbConnection();
-
 // Display login page
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
@@ -44,31 +28,27 @@ app.get('/', (req, res) => {
 
 // Handle login
 app.post('/login', async (req, res) => {
-    const { ruas, pass_ruas } = req.body;
-    try {
-        const result = await pool.query('SELECT * FROM akun_ruas WHERE ruas = $1', [ruas]);
-        if (result.rows.length > 0) {
-            const ruas = result.rows[0];
-            if (pass_ruas === ruas.pass_ruas) {
-                req.session.ruas_id = ruas.ruas_id;
-                return res.redirect('/dashboard');
-            }
-        }
-        res.send('Invalid username or password');
-    } catch (err) {
-        console.error('Database query error:', err);
-        res.status(500).send('Server error');
-    }
-});
+    const { username, password } = req.body;
+    const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
 
+    if (result.rows.length > 0) {
+        const user = result.rows[0];
+        if (password === user.password) { // Direct comparison without bcrypt
+            req.session.userId = user.id;
+            return res.redirect('/dashboard');
+        }
+    }
+    res.send('Invalid username or password');
+});
 
 // Dashboard route (protected)
 app.get('/dashboard', (req, res) => {
-    if (req.session.ruas_id) { // ruas_id, bukan userId
+    if (req.session.userId) {
         res.send('<h1>Hello World</h1>');
     } else {
         res.redirect('/');
     }
 });
 
-
+// Export the Express app
+module.exports = app;
