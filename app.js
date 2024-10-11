@@ -6,7 +6,7 @@ const { Pool } = require('pg');
 
 // Setup PostgreSQL connection
 const pool = new Pool({
-    connectionString: 'postgresql://neondb_owner:Jo8WPEIvxw7Q@ep-dry-violet-a1dncukp.ap-southeast-1.aws.neon.tech/neondb?sslmode=require'
+    connectionString: process.env.DATABASE_URL
 });
 
 const app = express();
