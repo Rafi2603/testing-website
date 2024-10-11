@@ -23,41 +23,38 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         document.getElementById('submitbutton').addEventListener('click', async () => {
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-    
-            try {
-                const response = await axios.post('https://testing-website-rafi-fauzans-projects.vercel.app/login', {
-                    //ruas: 'Jagorawi',
-                    //pass_ruas: 'Jagorawi123'
-                    ruas: username,
-                    pass_ruas: password
-                });
-    
-                // Jika berhasil login
-                const data = response.data;
-    
-                // Redirect based on role and ruas
-                if (response.data.success) {
-                    // Redirect berdasarkan ruas
-                    if (response.data.ruas == 'Cipularang') {
-                        window.location.href = 'https://testing-website-rafi-fauzans-projects.vercel.app/cipularang/rekap-data-cipularang.html';
-                    } else if (response.data.ruas == 'Jagorawi') {
-                        window.location.href = 'https://testing-website-rafi-fauzans-projects.vercel.app/jagorawi/rekap-data-jagorawi.html';
-                    }
-                }
+    const username = document.getElementById('username').value.trim(); // Trim to avoid extra spaces
+    const password = document.getElementById('password').value.trim(); // Trim to avoid extra spaces
 
-
-            } catch (error) {
-                // Handle error response dari server
-                if (error.response) {
-                    document.getElementById('warningMessage').textContent = error.response.data;
-                } else {
-                    document.getElementById('warningMessage').textContent = 'An error occurred. Please try again.';
-                }
-                console.error('Error logging in:', error);
-            }
+    try {
+        const response = await axios.post('https://testing-website-rafi-fauzans-projects.vercel.app/login', {
+            ruas: username, // Use the input value for ruas
+            pass_ruas: password // Use the input value for pass_ruas
         });
+        
+        console.log('Sending:', { ruas: username, pass_ruas: password });
+
+        // Handle successful login
+        if (response.data.success) {
+            // Redirect based on role and ruas
+            if (response.data.ruas == 'Cipularang') {
+                window.location.href = 'https://testing-website-rafi-fauzans-projects.vercel.app/cipularang/rekap-data-cipularang.html';
+            } else if (response.data.ruas == 'Jagorawi') {
+                window.location.href = 'https://testing-website-rafi-fauzans-projects.vercel.app/jagorawi/rekap-data-jagorawi.html';
+            }
+        }
+
+    } catch (error) {
+        // Handle error response from server
+        if (error.response) {
+            document.getElementById('warningMessage').textContent = error.response.data;
+        } else {
+            document.getElementById('warningMessage').textContent = 'An error occurred. Please try again.';
+        }
+        console.error('Error logging in:', error);
+    }
+});
+
     </script>
     
 
