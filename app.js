@@ -4,17 +4,28 @@ const session = require('express-session');
 const { Pool } = require('pg');
 const RedisStore = require('connect-redis')(session);
 const redisClient = require('redis').createClient();
+const cors = require('cors');
+
+const app = express();  // Inisialisasi express app di sini
 
 // Setup PostgreSQL connection
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL
 });
 
+// Menggunakan CORS
+app.use(cors({
+    origin: 'https://testing-website-rafi-fauzans-projects.vercel.app'  // Batasi hanya ke domain frontend Anda
+}));
+
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
 // setup cors
 const cors = require('cors');
 app.use(cors());  // Mengizinkan semua origin
 
-const app = express();
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Setup session
