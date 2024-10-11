@@ -70,7 +70,7 @@ function formatTanggal(tanggal) {
 }
 
     // Fetch data for Rekap Data K3 JAGORAWI
-    fetch('http://localhost:3000/getdatajagorawi')
+    fetch('https://testing-website-rafi-fauzans-projects.vercel.app/getdatajagorawi')
         .then(response => response.json())
         .then(data => {
             if (data.message === 'Data Found') {
@@ -123,7 +123,7 @@ function formatTanggal(tanggal) {
         .catch(error => console.error('Error fetching data:', error));
 
     // Fetch data for Personel K3
-    fetch('http://localhost:3000/getpersoneljagorawi')
+    fetch('https://testing-website-rafi-fauzans-projects.vercel.app/getpersoneljagorawi')
         .then(response => response.json())
         .then(data => {
             if (data.message === 'Data Found') {
@@ -155,7 +155,7 @@ function formatTanggal(tanggal) {
 
 
 // Fetch data for Personel K3
-fetch('http://localhost:3000/getkecelakaanjagorawi')
+fetch('https://testing-website-rafi-fauzans-projects.vercel.app/getkecelakaanjagorawi')
     .then(response => response.json())
     .then(data => {
         if (data.message === 'Data Found') {
@@ -192,7 +192,7 @@ fetch('http://localhost:3000/getkecelakaanjagorawi')
     .catch(error => console.error('Error fetching Personel K3 data:', error));
 
             // Fetch data for Personel K3
-    fetch('http://localhost:3000/getkejadianjagorawi')
+    fetch('https://testing-website-rafi-fauzans-projects.vercel.app/getkejadianjagorawi')
         .then(response => response.json())
         .then(data => {
             if (data.message === 'Data Found') {
@@ -221,7 +221,7 @@ fetch('http://localhost:3000/getkecelakaanjagorawi')
         .catch(error => console.error('Error fetching Personel K3 data:', error));
 
                     // Fetch data for Personel K3
-    fetch('http://localhost:3000/getstrukturjagorawi')
+    fetch('https://testing-website-rafi-fauzans-projects.vercel.app/getstrukturjagorawi')
     .then(response => response.json())
     .then(data => {
         if (data.message === 'Data Found') {
