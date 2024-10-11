@@ -40,6 +40,11 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
+// Example of defining other routes
+app.get('/jagorawi/rekap-data-jagorawi.html', (req, res) => {
+    res.sendFile(path.join(__dirname, 'jagorawi/rekap-data-jagorawi.html'));
+});
+
 // Handle login
 app.post('/login', async (req, res) => {
     const { ruas, pass_ruas } = req.body;
