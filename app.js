@@ -12,21 +12,8 @@ const pool = new Pool({
 });
 
 // Menggunakan CORS
-const allowedOrigins = [
-    'https://testing-website-rafi-fauzans-projects.vercel.app',
-    'https://testing-website-pied.vercel.app'  // Add your new frontend origin here
-];
+app.use(cors());  // This will allow all origins
 
-app.use(cors({
-    origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    }
-}));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
