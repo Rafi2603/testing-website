@@ -28,18 +28,23 @@ app.get('/', (req, res) => {
 
 // Handle login
 app.post('/login', async (req, res) => {
-    const { username, password } = req.body;
-    const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+    const { ruas, pass_ruas } = req.body;
+    
+    // Query untuk mencari ruas di database
+    const result = await pool.query('SELECT * FROM akun_ruas WHERE ruas = $1', [ruas]);
 
     if (result.rows.length > 0) {
         const user = result.rows[0];
-        if (password === user.password) { // Direct comparison without bcrypt
-            req.session.userId = user.id;
+
+        // Cek apakah password yang diinputkan sesuai dengan pass_ruas di database
+        if (pass_ruas === user.pass_ruas) { 
+            req.session.userId = user.ruas_id;  // Set session berdasarkan ruas_id
             return res.redirect('/dashboard');
         }
     }
-    res.send('Invalid username or password');
+    res.send('Invalid ruas or password');
 });
+
 
 // Dashboard route (protected)
 app.get('/dashboard', (req, res) => {
