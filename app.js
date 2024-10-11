@@ -41,8 +41,8 @@ app.get('/', (req, res) => {
 });
 
 // Example of defining other routes
-app.get('/jagorawi/rekap-data-jagorawi.html', (req, res) => {
-    res.sendFile(path.join(__dirname, 'jagorawi/rekap-data-jagorawi.html'));
+app.get('/rekap-data-jagorawi.html', (req, res) => {
+    res.sendFile(path.join(__dirname, + '/rekap-data-jagorawi.html'));
 });
 
 // Handle login
