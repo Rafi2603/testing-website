@@ -35,7 +35,9 @@ app.get('/', (req, res) => {
 // Handle login
 app.post('/login', async (req, res) => {
     const { ruas, pass_ruas } = req.body;
-    
+
+    console.log('Received:', { ruas, pass_ruas }); // Log the incoming values
+
     // Query untuk mencari ruas di database
     const result = await pool.query('SELECT * FROM akun_ruas WHERE ruas = $1', [ruas]);
 
@@ -45,16 +47,21 @@ app.post('/login', async (req, res) => {
         // Cek apakah password yang diinputkan sesuai dengan pass_ruas di database
         if (pass_ruas === user.pass_ruas) {
             req.session.userId = user.ruas_id;  // Set session berdasarkan ruas_id
-            
+
             // Kirim response JSON jika login berhasil
             return res.json({
                 success: true,
                 ruas: user.ruas // Misalnya mengembalikan ruas
             });
+        } else {
+            console.log('Incorrect password'); // Log incorrect password
         }
+    } else {
+        console.log('User not found'); // Log user not found
     }
     res.status(401).send('Invalid ruas or password');
 });
+
 
 // Dashboard route (protected)
 app.get('/dashboard', (req, res) => {
