@@ -33,6 +33,13 @@ app.use(session({
     cookie: { secure: process.env.NODE_ENV === 'production' } // Secure only if using HTTPS (in production)
 }));
 
+app.use((req, res, next) => {
+    const nonce = Math.random().toString(36).substr(2, 10); // Generate a random nonce
+    res.locals.nonce = nonce; // Make it available in your templates
+    next();
+});
+
+
 // Display login page
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');

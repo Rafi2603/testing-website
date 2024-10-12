@@ -3,11 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    script-src 'self' 'nonce-{{nonce}}' https://stackpath.bootstrapcdn.com https://cdn.datatables.net;
-    style-src 'self' 'nonce-{{nonce}}' https://stackpath.bootstrapcdn.com https://cdn.datatables.net;">
-
 
 
     <title>Dashboard K3 - Struktur Organisasi</title>
@@ -16,9 +11,12 @@
     <!-- DataTables CSS -->
     <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet">
     
-
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet">
     
-    <style nonce="{{nonce}}">
+    <style nonce="<%= nonce %>">
 
         /* Tombol scroll-up di pojok kanan bawah */
         #scrollUpButton {
@@ -752,11 +750,11 @@ h1, h2 {
 
     <button id="scrollUpButton" onclick="scrollToTop()">&#8679;</button>
 
-    <script nonce="{{nonce}}" src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script nonce="<%= nonce %>" src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 
         <!-- JavaScript -->
-        <script nonce="{{nonce}}">
+        <script nonce="<%= nonce %>">
             // Tampilkan tombol ketika pengguna scroll lebih dari 20px ke bawah
             window.onscroll = function() {scrollFunction()};
     
@@ -776,7 +774,7 @@ h1, h2 {
         </script>
 
 
-    <script nonce="{{nonce}}">
+    <script nonce="<%= nonce %>">
         document.getElementById('logoutbutton').addEventListener('click', async () => {
             try {
                 const response = await axios.post('/logout');
@@ -793,7 +791,7 @@ h1, h2 {
     </script>
     
 
-    <script nonce="{{nonce}}">
+    <script nonce="<%= nonce %>">
 // Fetch data from backend
 // Fetch data from backend
 axios.get('getstrukturjagorawi')
@@ -841,7 +839,7 @@ axios.get('getstrukturjagorawi')
 
     </script>
  
- <script nonce="{{nonce}}">
+ <script nonce="<%= nonce %>">
     function showDeleteModalData() {
         $('#deleteModal').modal('show'); // Tampilkan modal pop-up
     }
@@ -876,7 +874,7 @@ axios.get('getstrukturjagorawi')
 </script>
 
 
-<script nonce="{{nonce}}">
+<script nonce="<%= nonce %>">
     function showDeleteModalPersonel() {
         $('#deleteModalPersonel').modal('show'); // Tampilkan modal pop-up
     }
@@ -909,7 +907,7 @@ axios.get('getstrukturjagorawi')
 </script>
 
 
-<script nonce="{{nonce}}">
+<script nonce="<%= nonce %>">
     function showDeleteModalKecelakaan() {
         $('#deleteModalKecelakaan').modal('show'); // Tampilkan modal pop-up
     }
@@ -942,7 +940,7 @@ axios.get('getstrukturjagorawi')
 </script>
 
 
-<script nonce="{{nonce}}">
+<script nonce="<%= nonce %>">
     function showDeleteModalKejadian() {
         $('#deleteModalKejadian').modal('show'); // Tampilkan modal pop-up
     }
@@ -978,7 +976,7 @@ axios.get('getstrukturjagorawi')
     }
 </script>
 
-    <script nonce="{{nonce}}">
+    <script nonce="<%= nonce %>">
         document.getElementById('export-button').addEventListener('click', function() {
             // Ambil data tabel
             var table = document.getElementById('data-table');
@@ -989,7 +987,7 @@ axios.get('getstrukturjagorawi')
         });
     </script>
 
-    <script nonce="{{nonce}}">
+    <script nonce="<%= nonce %>">
         document.getElementById('export-buttonPersonel').addEventListener('click', function() {
             // Ambil data tabel
             var table = document.getElementById('personel-k3-table');
@@ -1000,7 +998,7 @@ axios.get('getstrukturjagorawi')
         });
     </script>
 
-    <script nonce="{{nonce}}">
+    <script nonce="<%= nonce %>">
         document.getElementById('export-buttonKecelakaan').addEventListener('click', function() {
             // Ambil data tabel
             var table = document.getElementById('kecelakaan-kerja-table');
@@ -1011,7 +1009,7 @@ axios.get('getstrukturjagorawi')
         });
     </script>
 
-        <script nonce="{{nonce}}">
+        <script nonce="<%= nonce %>">
         document.getElementById('export-buttonKejadian').addEventListener('click', function() {
             // Ambil data tabel
             var table = document.getElementById('kejadian-kerja-table');
@@ -1022,7 +1020,7 @@ axios.get('getstrukturjagorawi')
         });
     </script>
 
-<script nonce="{{nonce}}">
+<script nonce="<%= nonce %>">
     document.getElementById('export-buttonStruktur').addEventListener('click', function() {
         // Ambil data tabel
         var table = document.getElementById('struktur-organisasi-table');
@@ -1033,28 +1031,18 @@ axios.get('getstrukturjagorawi')
     });
 </script>
 
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<!-- DataTables CSS -->
+<link href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css" rel="stylesheet">
 
-    <!-- jQuery (required for Bootstrap and DataTables) -->
-    <script nonce="{{nonce}}" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script nonce="{{nonce}}" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- DataTables JS -->
-    <script nonce="{{nonce}}" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+<!-- jQuery (required for Bootstrap and DataTables) -->
+<script nonce="<%= nonce %>" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<!-- Bootstrap JS -->
+<script nonce="<%= nonce %>" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- DataTables JS -->
+<script nonce="<%= nonce %>" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 
-
-    <!-- jQuery -->
-    <script nonce="{{nonce}}" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <!-- DataTables JS -->
-    <script nonce="{{nonce}}" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-    <!-- Bootstrap JS and dependencies -->
-    <script nonce="{{nonce}}" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
-    <script nonce="{{nonce}}" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <!-- Your custom script -->
-    <script nonce="{{nonce}}" src="script-jagorawi.js"></script>
-
-    <script nonce="{{nonce}}" src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-    <script nonce="{{nonce}}" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 
 </body>
