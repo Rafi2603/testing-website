@@ -5,9 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
-    script-src 'self' https://stackpath.bootstrapcdn.com https://cdn.datatables.net 'sha256-+HASH_OF_INLINE_SCRIPT';
-    style-src 'self' https://stackpath.bootstrapcdn.com https://cdn.datatables.net 'sha256-+HASH_OF_INLINE_STYLE';">
-
+    script-src 'self' 'sha256-...' https://code.jquery.com https://stackpath.bootstrapcdn.com https://cdn.datatables.net;
+    style-src 'self' 'sha256-...' https://stackpath.bootstrapcdn.com https://cdn.datatables.net;
+    img-src 'self' data: https://testing-website-rafi-fauzans-projects.vercel.app;
+    object-src 'none';
+    base-uri 'self';
+    form-action 'self';
+">
 
 
     <title>Dashboard K3 - Struktur Organisasi</title>
