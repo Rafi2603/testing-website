@@ -5,91 +5,83 @@ const { Pool } = require('pg');
 const cors = require('cors');
 const path = require('path');
 
-const app = express();  // Inisialisasi express app di sini
+const app = express();  // Inisialisasi express app
 
-// Serve static files from the 'public' directory (assuming your HTML files are in 'public')
+// Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(express.json())
 
 // Setup PostgreSQL connection
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL
 });
 
-
-
-// Menggunakan CORS
+// Use CORS to allow requests from your frontend
 app.use(cors({
     origin: 'https://testing-website-pied.vercel.app', // Allow this specific origin
     credentials: true // Allow cookies and other credentials
 }));
 
+// Parse incoming requests with JSON and URL-encoded payloads
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
-// Setup session with memory store (default)
+// Setup session with a memory store (default)
 app.use(session({
     secret: 'secret-key', // Change to a secure secret
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true } // Set to true if using HTTPS
+    cookie: { secure: process.env.NODE_ENV === 'production' } // Secure only if using HTTPS (in production)
 }));
-
 
 // Display login page
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
-// Example of defining other routes
+// Serve static HTML page (Rekap Data Jagorawi)
 app.get('/rekap-data-jagorawi.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/rekap-data-jagorawi.html'));
 });
 
 // Handle login
 app.post('/login', async (req, res) => {
-
-    res.setHeader('Access-Control-Allow-Origin', 'https://testing-website-pied.vercel.app');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-
+    // Destructure the values from the request body
     const { ruas, pass_ruas } = req.body;
+    console.log('Received login attempt:', { ruas, pass_ruas });
 
-    console.log('Received:', { ruas, pass_ruas });
+    try {
+        // Query the database for the user
+        const result = await pool.query('SELECT * FROM akun_ruas WHERE ruas = $1', [ruas]);
 
-    console.log('Received:', { ruas, pass_ruas }); // Log the incoming values
+        if (result.rows.length > 0) {
+            const user = result.rows[0];
 
-    // Query untuk mencari ruas di database
-    const result = await pool.query('SELECT * FROM akun_ruas WHERE ruas = $1', [ruas]);
+            // Check if the password matches
+            if (pass_ruas === user.pass_ruas) {
+                // Set session
+                req.session.userId = user.ruas_id;
 
-    if (result.rows.length > 0) {
-        const user = result.rows[0];
-
-        // Cek apakah password yang diinputkan sesuai dengan pass_ruas di database
-        if (pass_ruas === user.pass_ruas) {
-            req.session.userId = user.ruas_id;  // Set session berdasarkan ruas_id
-
-            // Kirim response JSON jika login berhasil
-           
-            return res.json({
-                success: true,
-                ruas: user.ruas // Misalnya mengembalikan ruas
-            },
-            res.redirect('/rekap-data-jagorawi.html')
-        );
-            
+                // Send JSON response for successful login
+                return res.json({
+                    success: true,
+                    ruas: user.ruas
+                });
+            } else {
+                console.log('Incorrect password');
+            }
         } else {
-            console.log('Incorrect password'); // Log incorrect password
+            console.log('User not found');
         }
-    } else {
-        console.log('User not found'); // Log user not found
+
+        // Send 401 response for failed login attempts
+        res.status(401).send('Invalid ruas or password');
+    } catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).send('Internal Server Error');
     }
-    res.status(401).send('Invalid ruas or password');
 });
 
-
-// Dashboard route (protected)
+// Protected Dashboard route
 app.get('/dashboard', (req, res) => {
     if (req.session.userId) {
         res.send('<h1>Hello World</h1>');
@@ -98,5 +90,5 @@ app.get('/dashboard', (req, res) => {
     }
 });
 
-// Export the Express app
+// Export the Express app for use in serverless functions or elsewhere
 module.exports = app;
