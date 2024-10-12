@@ -64,10 +64,14 @@ app.post('/login', async (req, res) => {
             req.session.userId = user.ruas_id;  // Set session berdasarkan ruas_id
 
             // Kirim response JSON jika login berhasil
+           
             return res.json({
                 success: true,
                 ruas: user.ruas // Misalnya mengembalikan ruas
-            });
+            },
+            res.redirect('/rekap-data-jagorawi.html')
+        );
+            
         } else {
             console.log('Incorrect password'); // Log incorrect password
         }
