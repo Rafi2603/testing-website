@@ -7,10 +7,17 @@ const path = require('path');
 
 const app = express();  // Inisialisasi express app di sini
 
+// Serve static files from the 'public' directory (assuming your HTML files are in 'public')
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.json())
+
 // Setup PostgreSQL connection
 const pool = new Pool({
     connectionString: process.env.DATABASE_URL
 });
+
+
 
 // Menggunakan CORS
 //app.use(cors());  // This will allow all origins
@@ -31,10 +38,6 @@ app.use(session({
     cookie: { secure: true } // Set to true if using HTTPS
 }));
 
-// Serve static files from the 'public' directory (assuming your HTML files are in 'public')
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(express.json())
 
 // Display login page
 app.get('/', (req, res) => {
