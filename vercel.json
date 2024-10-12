@@ -9,8 +9,7 @@
   "routes": [
     {
       "src": "public/**",
-      "dest": "app.js",
-      "use": "@vercel/static"
+      "dest": "app.js"
     }
   ]
 }
