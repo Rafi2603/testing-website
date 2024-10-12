@@ -20,13 +20,10 @@ const pool = new Pool({
 
 
 // Menggunakan CORS
-//app.use(cors());  // This will allow all origins
-
 app.use(cors({
-    origin: 'https://testing-website-pied.vercel.app', // Allow your frontend domain
-    credentials: true // Required for session cookies
+    origin: 'https://testing-website-pied.vercel.app', // Allow this specific origin
+    credentials: true // Allow cookies and other credentials
 }));
-
 
 app.use(bodyParser.urlencoded({ extended: true }));
 

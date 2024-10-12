@@ -132,9 +132,9 @@ body {
         // Handle successful login
         if (response.data.success) {
             // Redirect based on role and ruas
-            if (response.data.ruas == 'Cipularang') {
+            if (response.data.ruas === 'Cipularang') {
                 window.location.href = 'https://testing-website-rafi-fauzans-projects.vercel.app/rekap-data-cipularang.html';
-            } else if (response.data.ruas == 'Jagorawi') {
+            } else if (response.data.ruas === 'Jagorawi') {
                 window.location.href = 'https://testing-website-rafi-fauzans-projects.vercel.app/rekap-data-jagorawi.html';
             }
         }
