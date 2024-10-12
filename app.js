@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const { Pool } = require('pg');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();  // Inisialisasi express app di sini
 
@@ -30,8 +31,8 @@ app.use(session({
     cookie: { secure: true } // Set to true if using HTTPS
 }));
 
-// Serve static files (CSS)
-app.use(express.static('public'));
+// Serve static files from the 'public' directory (assuming your HTML files are in 'public')
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(express.json())
 
@@ -42,7 +43,7 @@ app.get('/', (req, res) => {
 
 // Example of defining other routes
 app.get('/rekap-data-jagorawi.html', (req, res) => {
-    res.sendFile(path.join(__dirname, + '/rekap-data-jagorawi.html'));
+    res.sendFile(path.join(__dirname, 'public/rekap-data-jagorawi.html'));
 });
 
 // Handle login
