@@ -48,6 +48,12 @@ app.get('/rekap-data-jagorawi.html', (req, res) => {
 
 // Handle login
 app.post('/login', async (req, res) => {
+
+    res.setHeader('Access-Control-Allow-Origin', 'https://testing-website-pied.vercel.app');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+
     const { ruas, pass_ruas } = req.body;
 
     console.log('Received:', { ruas, pass_ruas });
