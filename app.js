@@ -92,6 +92,68 @@ app.get('/getdatajagorawi', (req, res) => {
     });
 });
 
+app.get('/getpersoneljagorawi', (req, res) => {
+    pool.query('SELECT * FROM personel_k3_jagorawi', (err, results) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        res.json({ message: 'Data Found', showItems: results.rows });
+    });
+});
+
+app.get('/getkecelakaanjagorawi', (req, res) => {
+    pool.query('SELECT * FROM kecelakaan_kerja_jagorawi', (err, results) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        res.json({ message: 'Data Found', showItems: results.rows });
+    });
+});
+
+app.get('/getkejadianjagorawi', (req, res) => {
+    const query = 'SELECT * FROM kejadian_darurat_jagorawi';
+    pool.query(query)
+        .then(result => {
+            const showItems = result.rows.map(row => {
+                // Convert BYTEA to Base64
+                const evidenceBase64 = row.evidence ? Buffer.from(row.evidence).toString('base64') : null;
+
+                return {
+                    ...row,
+                    evidence: evidenceBase64 // Set the encoded image
+                };
+            });
+
+            res.status(200).json({ message: 'Data Found', showItems });
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            res.status(500).json({ message: 'Error fetching data' });
+        });
+});
+
+app.get('/getstrukturjagorawi', (req, res) => {
+    pool.query('SELECT * FROM struktur_organisasi_jagorawi ORDER BY jabatan', (err, results) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        res.json({ message: 'Data Found', showItems: results.rows });
+    });
+});
+
+app.get('/getchecklistjagorawi', (req, res) => {
+    pool.query('SELECT * FROM checklist_k3_jagorawi', (err, results) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        res.json({ message: 'Data Found', showItems: results.rows });
+    });
+});
+
 
 // Protected Dashboard route
 app.get('/dashboard', (req, res) => {
