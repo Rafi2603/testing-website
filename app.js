@@ -81,6 +81,18 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// Menampilkan seluruh data dari Tabel Jagorawi
+app.get('/getdatajagorawi', (req, res) => {
+    pool.query('SELECT * FROM rekap_data_k3_jagorawi', (err, results) => {
+        if (err) {
+            console.log(err);
+            return;
+        }
+        res.json({ message: 'Data Found', showItems: results.rows });
+    });
+});
+
+
 // Protected Dashboard route
 app.get('/dashboard', (req, res) => {
     if (req.session.userId) {
